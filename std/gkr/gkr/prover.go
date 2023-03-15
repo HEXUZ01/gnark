@@ -11,7 +11,7 @@ import (
 
 // Prover contains all relevant data for a GKR prover
 type Prover struct {
-	bN         int
+	bN         int//TODO(hexu): I think this is the number of subcircuits/workers
 	circuit    circuit.Circuit
 	assignment circuit.Assignment
 }
@@ -74,7 +74,7 @@ func GetInitialQPrimeAndQAndInput(bN, bG int, inputs []fr.Element) ([]fr.Element
 	}
 
 	return qPrime, q
-}
+}//TODO(hexu): I know what it is doing? But I do not know why it does that?
 
 // GetBookKeepingTablesForInitialRound generates and prefold the book-keeping tables for a the initial GKR round
 func (p *Prover) GetBookKeepingTablesForInitialRound(
@@ -90,7 +90,7 @@ func (p *Prover) GetBookKeepingTablesForInitialRound(
 	// And gate the remaining table
 	vL = p.assignment.LayerAsBKTWithCopy(layer, nCore)
 	vR = p.assignment.LayerAsBKTWithCopy(layer, nCore)
-	eq = polynomial.GetChunkedEqTable(qPrime, len(vL), nCore)
+	eq = polynomial.GetChunkedEqTable(qPrime, len(vL), nCore)//TODO(hexu): why it creates this chunk?
 	return vL, vR, eq, statics
 }
 
@@ -168,7 +168,7 @@ func (p *Prover) Prove(nCore int) Proof {
 		lambdaR := common.GetChallenge([]fr.Element{ClaimsLeft[layer+1], ClaimsRight[layer+1]})
 		claim := ClaimsRight[layer+1]
 		claim.Mul(&claim, &lambdaR)
-		claim.Add(&claim, &ClaimsLeft[layer+1])
+		claim.Add(&claim, &ClaimsLeft[layer+1])//TODO(hexu): where is claim used?
 
 		// Intermediate round sumcheck and update the GKR proof
 		prover := p.IntermediateRoundsSumcheckProver(layer, qPrime, qL, qR, lambdaL, lambdaR, nCore)

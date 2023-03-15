@@ -34,7 +34,7 @@ func NewLayer(wires []Wire) Layer {
 
 // GetStaticTable returns the prefolded static tables
 // They are returned in the same order as l.Gates
-func (l *Layer) GetStaticTable(q []fr.Element) []polynomial.BookKeepingTable {
+func (l *Layer) GetStaticTable(q []fr.Element) []polynomial.BookKeepingTable {//TODO(hexu): why each gate has one bkt?
 	// Computes the gates to ensure we return the bookeeping tables in a deterministic order
 	gates := l.Gates
 	res := make([]polynomial.BookKeepingTable, len(gates))
@@ -46,7 +46,7 @@ func (l *Layer) GetStaticTable(q []fr.Element) []polynomial.BookKeepingTable {
 	for i, gate := range l.Gates {
 		// The tab is filled with zeroes
 		tab := make([]fr.Element, (1<<l.BGOutputs)*(1<<(2*l.BGInputs)))
-		for _, w := range l.Wires {
+		for _, w := range l.Wires {//TODO(hexu): slow implementation.
 			if w.Gate.ID() == gate.ID() {
 				k := gO*w.O + gL*w.L + w.R
 				tab[k].Add(&tab[k], &one)
@@ -55,7 +55,7 @@ func (l *Layer) GetStaticTable(q []fr.Element) []polynomial.BookKeepingTable {
 		// Prefold the bookkeeping table before returning
 		bkt := polynomial.NewBookKeepingTable(tab)
 		for _, r := range q {
-			bkt.Fold(r)
+			bkt.Fold(r)//TODO(hexu): why we need to fold this?
 		}
 		res[i] = bkt
 	}
@@ -86,9 +86,9 @@ func (l *Layer) Evaluate(inputs [][]fr.Element, nCore int) [][]fr.Element {
 				wON := w.O * N
 				wLN := w.L * N
 				wRN := w.R * N
-				for h := 0; h < N; h++ {
+				for h := 0; h < N; h++ {//TODO(hexu): why there are N outputs for this gate?
 					// Runs the gate evaluator
-					w.Gate.Eval(&tmp, &inps[wLN+h], &inps[wRN*N+h])
+					w.Gate.Eval(&tmp, &inps[wLN+h], &inps[wRN*N+h])//TODO(hexu): why wRN*N again?
 					subRes[wON+h].Add(&subRes[wON+h], &tmp)
 				}
 			}

@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TODO(hexu): I do not understand what is this process doing.
 // 4 variables
 //
 // sparse Eq:

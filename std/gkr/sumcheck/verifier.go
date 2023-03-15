@@ -32,7 +32,8 @@ func (v Verifier) Verify(claim fr.Element, proof Proof, bN, bG int) (result bool
 
 		challenges[i] = r
 		expectedValue = polynomial.EvaluatePolynomial(proof.PolyCoeffs[i], r)
-	}
+	}//TODO(hexu): why not check that the final expectedValue equal to result of original polynomial. 
+	// Maybe it is checked outside of the function.
 
 	// A deep-copy to avoid reusing the same underlying slice for all writes
 	qL = append([]fr.Element{}, challenges[:bG]...)

@@ -18,7 +18,7 @@ type Circuit struct {
 // Assignment gathers all the values representing the steps of
 // computations being proved by GKR
 type Assignment struct {
-	Values [][][]fr.Element
+	Values [][][]fr.Element//TODO(hexu): (layer id, batch id, position in a layer)? why we have batch id?
 }
 
 // NewCircuit construct a new circuit object

@@ -41,6 +41,7 @@ func EvalEq(qPrime, nextQPrime []fr.Element) fr.Element {
 // containing the values of Eq(q1, ... , qn, *, ... , *)
 // where qPrime = [q1 ... qn].
 func GetFoldedEqTable(qPrime []fr.Element) (eq BookKeepingTable) {
+	//TODO(hexu): do not fully understand. I think this is wrong implementation according to eq_test.
 	n := len(qPrime)
 	foldedEqTable := make([]fr.Element, 1<<n)
 	foldedEqTable[0].SetOne()
@@ -59,7 +60,7 @@ func GetFoldedEqTable(qPrime []fr.Element) (eq BookKeepingTable) {
 
 // GetChunkedEqTable returns a prefolded eq table, in chunked form
 func GetChunkedEqTable(qPrime []fr.Element, nChunks, nCore int) []BookKeepingTable {
-	logNChunks := common.Log2Ceil(nChunks)
+	logNChunks := common.Log2Ceil(nChunks)//TODO(hexu): I know what it is doing, but not why it is doing that.
 	res := make([]BookKeepingTable, nChunks)
 	res[0] = GetFoldedEqTable(qPrime[:len(qPrime)-logNChunks])
 

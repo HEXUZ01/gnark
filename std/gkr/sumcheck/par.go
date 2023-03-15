@@ -81,9 +81,9 @@ func (p *MultiThreadedProver) GetClaim(nCore int) fr.Element {
 func (p *MultiThreadedProver) Prove(nCore int) (proof Proof, qPrime, qL, qR, finalClaims []fr.Element) {
 
 	// Define usefull constants
-	nChunks := len(p.eq)
+	nChunks := len(p.eq)//TODO(hexu): I do not understand the chunks? I guess this is batch idx.
 	n := nChunks * len(p.eq[0].Table)     // Number of subcircuit. Since we haven't fold on h' yet
-	g := nChunks * len(p.vL[0].Table) / n // SubCircuit size. Since we haven't fold on hR yet
+	g := nChunks * len(p.vL[0].Table) / n // SubCircuit size. Since we haven't fold on hR yet //TODO(hexu): is this really right?
 	bN := common.Log2Ceil(n)
 	bG := common.Log2Ceil(g)
 	logNChunk := common.Log2Ceil(nChunks)
@@ -254,7 +254,7 @@ func (p *MultiThreadedProver) RunForChunk(
 
 	// Define usefull constants
 	n := len(subProver.eq.Table)     // Number of subcircuit. Since we haven't fold on h' yet
-	g := len(subProver.vR.Table) / n // SubCircuit size. Since we haven't fold on hR yet
+	g := len(subProver.vR.Table) / n // SubCircuit size. Since we haven't fold on hR yet//TODO(hexu): i am afraid that this is wrong?
 	bN := common.Log2Ceil(n)
 	bG := common.Log2Ceil(g)
 

@@ -51,7 +51,7 @@ func (v *Verifier) Verify(
 		return false
 	}
 	evalEq := polynomial.EvalEq(qPrime, nextQPrime)
-	evaluated := circuit.EvaluateCombinator(
+	evaluated := circuit.EvaluateCombinator(//TODO(hexu): do not fully understand this part.
 		&proof.ClaimsLeft[nLayers-1],
 		&proof.ClaimsRight[nLayers-1],
 		&evalEq,
